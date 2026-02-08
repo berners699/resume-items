@@ -6,5 +6,7 @@
 <style>
 .home {
     color: blue;
+    font-size: 20px;
+    margin: 10px;
 }
 </style>
