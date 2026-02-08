@@ -39,7 +39,8 @@
         // types用来指定需要包含的模块
         "types": [
             "vite/client",
-            "element-plus/global"
+            "element-plus/global",
+            "pinia-plugin-persistedstate"
         ],
         // 编译的时候删除注释
         "removeComments": true,
