@@ -1,16 +1,16 @@
 <template>
-    <div class="home">
-        登录 {{ uesrStore.username }}
-        <button @click="uesrStore.add">添加</button>
-    </div>
+	<div class="home">
+		登录
+		<button>添加</button>
+	</div>
 </template>
-<script lang="ts" setup>
-import { useUserStore } from '@/store/user';
-const uesrStore = useUserStore();
-
+<script setup lang="ts">
+defineOptions({
+	name: 'HomeComp'
+});
 </script>
 <style>
 .home {
-    color: yellow;
+	color: yellow;
 }
 </style>
