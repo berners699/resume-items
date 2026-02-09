@@ -1,7 +1,4 @@
 <template>
-    <div>
-        初始化
-    </div>
-    <router-view></router-view>
+	<div>初始化</div>
+	<router-view />
 </template>
-<style></style>
