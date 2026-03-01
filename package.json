@@ -9,7 +9,7 @@
 		"lint:prettier": "prettier --write **/*.{js,json,tsx,css,less,scss,vue,html,md}",
 		"lint:lint-staged": "lint-staged",
 		"prepare": "husky",
-		"build": ""
+		"build": "vite build --mode production"
 	},
 	"type": "module",
 	"keywords": [],
