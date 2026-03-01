@@ -15,7 +15,7 @@ export default defineConfig((): UserConfig => {
 		// 项目根目录
 		root,
 		// 项目部署的基础路径
-		base: '/',
+		base: './',
 		publicDir: fileURLToPath(new URL('./public', import.meta.url)), // 无需处理的静态资源位置
 		assetsInclude: fileURLToPath(new URL('./src/assets', import.meta.url)), // 需要处理的静态资源位置
 		plugins: [
