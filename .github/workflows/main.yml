@@ -1,54 +1,44 @@
-name: Deploy GitHub Pages
+# 工作流名称，会显示在 GitHub Actions 列表里
+name: 构建并发布
 
+# 定义何时自动运行此工作流
 on:
   push:
     branches:
-      - master
+      - master # 只有向 master 分支推送代码时才触发
 
+# 允许 GITHUB_TOKEN 写入仓库（发布 gh-pages 分支需要）
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
-concurrency:
-  group: pages
-  cancel-in-progress: true
-
+# 定义要执行的任务
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  build-and-deploy:
+    runs-on: ubuntu-latest # 使用 GitHub 提供的 Ubuntu 虚拟机
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: 检出代码
+        uses: actions/checkout@v4 # 把当前仓库代码下载到 runner
 
-      - name: Setup Node
+      - name: 安装 pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.19.0 # 与 package.json 里 packageManager 版本一致
+
+      - name: 配置 Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: npm
+          node-version: 22 # Node 运行环境版本
+          cache: pnpm # 缓存依赖，加快下次安装速度
 
-      - name: Install Dependencies
-        run: npm install
+      - name: 安装依赖
+        run: pnpm install # 安装 package.json 中的依赖
 
-      - name: Build Project
-        run: npm run build
+      - name: 构建项目
+        run: pnpm build # 执行 vite build，生成 dist 目录
 
-      - name: Upload Pages Artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: 发布静态站点
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          path: ./dist
-
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    needs: build
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }} # 自动提供的仓库令牌，用于推送
+          publish_dir: ./dist # 要发布的文件夹（构建产物）
